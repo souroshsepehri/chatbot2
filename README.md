@@ -1,181 +1,200 @@
-# بات هوشمند زیمر - Persian Chatbot
+# Persian Chatbot with FAQ Management
 
-یک سیستم چت‌بات کامل با قابلیت‌های پیشرفته برای پاسخ‌دهی به سؤالات به زبان فارسی.
+A modern Persian chatbot built with FastAPI backend and Next.js frontend, featuring FAQ management, semantic search, and comprehensive logging.
 
-## ویژگی‌ها
+## Features
 
-### Backend (FastAPI + LangChain)
-- **تشخیص نیت**: طبقه‌بندی خودکار پیام‌های کاربر
-- **جستجوی معنایی**: استفاده از FAISS برای یافتن بهترین پاسخ‌ها
-- **پایگاه داده**: SQLite با SQLAlchemy برای ذخیره FAQ و لاگ‌ها
-- **مدیریت FAQ**: CRUD کامل برای سؤالات و دسته‌بندی‌ها
-- **لاگ‌گیری**: ثبت کامل گفت‌وگوها با جزئیات عملکرد
+- 🤖 **Persian Chatbot** - Natural language processing in Persian
+- 📚 **FAQ Management** - Add, edit, and manage frequently asked questions
+- 🔍 **Semantic Search** - AI-powered search through FAQ database
+- 📊 **Comprehensive Logging** - Track all chat interactions and analytics
+- 🎨 **Modern UI** - Beautiful, responsive interface with Tailwind CSS
+- 🔐 **Admin Panel** - Secure admin interface for managing content
+- 🐳 **Docker Support** - Easy deployment with Docker and Docker Compose
 
-### Frontend (Next.js + Tailwind)
-- **رابط کاربری فارسی**: طراحی RTL با فونت Vazirmatn
-- **تم بنفش/خاکستری**: طراحی مدرن و زیبا
-- **ویجت چت**: چت‌بات شناور با پنل دیباگ
-- **صفحات مدیریت**: مدیریت FAQ و مشاهده لاگ‌ها
-- **فیلتر و جستجو**: قابلیت‌های پیشرفته فیلترسازی
-
-## نصب و راه‌اندازی
-
-### پیش‌نیازها
-- Python 3.8+
-- Node.js 18+
-- OpenAI API Key
+## Tech Stack
 
 ### Backend
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy** - Database ORM
+- **SQLite** - Lightweight database
+- **LangChain** - AI/ML framework
+- **OpenAI GPT** - Language model
+- **FAISS** - Vector similarity search
 
-1. **نصب وابستگی‌ها**:
+### Frontend
+- **Next.js 14** - React framework
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS
+- **Lucide React** - Beautiful icons
+
+## Quick Start with Docker
+
+### Prerequisites
+- Docker and Docker Compose installed
+- OpenAI API key
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/souroshsepehri/chatbot2.git
+cd chatbot2
+```
+
+### 2. Set Environment Variables
+Create a `.env` file in the root directory:
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+### 3. Run with Docker Compose
+```bash
+docker-compose up --build
+```
+
+This will:
+- Build both backend and frontend containers
+- Start the backend on http://localhost:8000
+- Start the frontend on http://localhost:3000
+- Set up automatic health checks and restarts
+
+### 4. Access the Application
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **Admin Panel**: http://localhost:3000/admin
+
+## Manual Setup (Without Docker)
+
+### Backend Setup
 ```bash
 cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-```
-
-2. **تنظیم متغیرهای محیطی**:
-```bash
-cp env.example .env
-# فایل .env را ویرایش کنید و API Key خود را اضافه کنید
-```
-
-3. **ایجاد جداول دیتابیس**:
-```bash
-python seed.py
-```
-
-4. **اجرای سرور**:
-```bash
 python app.py
 ```
 
-سرور روی `http://localhost:8000` اجرا می‌شود.
-
-### Frontend
-
-1. **نصب وابستگی‌ها**:
+### Frontend Setup
 ```bash
 cd frontend
 npm install
-```
-
-2. **تنظیم متغیرهای محیطی**:
-```bash
-# فایل .env.local ایجاد کنید
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
-```
-
-3. **اجرای برنامه**:
-```bash
 npm run dev
 ```
 
-برنامه روی `http://localhost:3000` اجرا می‌شود.
+## Environment Variables
 
-## ساختار پروژه
-
+### Backend (.env)
+```bash
+OPENAI_API_KEY=your_openai_api_key
+DATABASE_URL=sqlite:///./app.db
+VECTORSTORE_PATH=./vectorstore
 ```
-├── backend/
-│   ├── app.py                 # FastAPI entry point
-│   ├── core/
-│   │   ├── config.py          # تنظیمات
-│   │   └── db.py             # دیتابیس
-│   ├── models/
-│   │   ├── faq.py            # مدل‌های FAQ و Category
-│   │   └── log.py            # مدل ChatLog
-│   ├── schemas/
-│   │   ├── chat.py           # اسکیماهای چت
-│   │   ├── faq.py            # اسکیماهای FAQ
-│   │   └── log.py            # اسکیماهای لاگ
-│   ├── services/
-│   │   ├── chain.py          # زنجیره اصلی پردازش
-│   │   ├── intent.py         # تشخیص نیت
-│   │   ├── retriever.py      # جستجوی معنایی
-│   │   └── answer.py         # تولید پاسخ
-│   ├── routers/
-│   │   ├── chat.py           # API چت
-│   │   ├── faqs.py           # API FAQ
-│   │   └── logs.py           # API لاگ‌ها
-│   ├── seed.py               # داده‌های نمونه
-│   └── requirements.txt
-└── frontend/
-    ├── app/
-    │   ├── layout.tsx        # Layout اصلی
-    │   ├── page.tsx          # صفحه اصلی
-    │   └── admin/            # صفحات مدیریت
-    ├── components/
-    │   ├── ChatWidget.tsx    # ویجت چت
-    │   ├── DebugPanel.tsx    # پنل دیباگ
-    │   └── FAQModal.tsx      # مودال FAQ
-    ├── lib/
-    │   └── api.ts            # API helpers
-    └── styles/
-        └── globals.css       # استایل‌های کلی
+
+### Frontend (.env.local)
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
 
 ## API Endpoints
 
-### چت
-- `POST /api/chat` - ارسال پیام و دریافت پاسخ
+### Chat
+- `POST /api/chat` - Send a message to the chatbot
+- `GET /health` - Health check
 
-### FAQ
-- `GET /api/faqs` - لیست سؤالات با فیلتر
-- `POST /api/faqs` - ایجاد سؤال جدید
-- `PUT /api/faqs/{id}` - ویرایش سؤال
-- `DELETE /api/faqs/{id}` - حذف سؤال
-- `POST /api/faqs/reindex` - بازسازی ایندکس
+### FAQs
+- `GET /api/faqs` - Get all FAQs
+- `POST /api/faqs` - Create new FAQ
+- `PUT /api/faqs/{id}` - Update FAQ
+- `DELETE /api/faqs/{id}` - Delete FAQ
+- `POST /api/faqs/reindex` - Reindex vector store
 
-### دسته‌بندی‌ها
-- `GET /api/categories` - لیست دسته‌بندی‌ها
-- `POST /api/categories` - ایجاد دسته‌بندی
-- `DELETE /api/categories/{id}` - حذف دسته‌بندی
+### Logs
+- `GET /api/logs` - Get chat logs with filters
+- `GET /api/logs/stats` - Get log statistics
+- `DELETE /api/logs/{id}` - Delete specific log
 
-### لاگ‌ها
-- `GET /api/logs` - لیست لاگ‌ها با فیلتر
-- `GET /api/logs/stats` - آمار کلی
-- `DELETE /api/logs/{id}` - حذف لاگ
+## Database Schema
 
-## تنظیمات
+### ChatLogs
+- `id` - Primary key
+- `timestamp` - When the chat occurred
+- `user_text` - User's message
+- `ai_text` - Bot's response
+- `intent` - Detected intent
+- `source` - Response source (faq, fallback, etc.)
+- `success` - Whether the response was successful
+- `matched_faq_id` - ID of matched FAQ (if applicable)
+- `confidence` - Confidence score
+- `tokens_in/out` - Token usage
+- `latency_ms` - Response time
+- `notes` - Additional metadata (JSON)
 
-### متغیرهای محیطی Backend
-```env
-OPENAI_API_KEY=your_api_key
-OPENAI_MODEL=gpt-4o-mini
-EMBEDDING_MODEL=text-embedding-3-small
-RETRIEVAL_TOP_K=4
-RETRIEVAL_THRESHOLD=0.82
-DATABASE_URL=sqlite:///./app.db
+### FAQs
+- `id` - Primary key
+- `question` - FAQ question
+- `answer` - FAQ answer
+- `category_id` - Category reference
+- `is_active` - Whether FAQ is active
+- `embedding` - Vector embedding for search
+- `created_at/updated_at` - Timestamps
+
+## Development
+
+### Adding New FAQs
+1. Go to http://localhost:3000/admin/faqs
+2. Click "Add New FAQ"
+3. Fill in question, answer, and category
+4. Save to add to database
+
+### Viewing Logs
+1. Go to http://localhost:3000/admin/logs
+2. View all chat interactions
+3. Filter by success, intent, date range
+4. Export data for analysis
+
+### Customizing Responses
+Edit the system prompts in:
+- `backend/services/answer.py` - Main response generation
+- `backend/services/intent.py` - Intent detection
+- `backend/services/chain.py` - Processing chain
+
+## Deployment
+
+### Docker Production
+```bash
+docker-compose -f docker-compose.prod.yml up -d
 ```
 
-### متغیرهای محیطی Frontend
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
+### Environment Variables for Production
+```bash
+OPENAI_API_KEY=your_production_key
+DATABASE_URL=postgresql://user:pass@host:port/db
+NEXT_PUBLIC_API_URL=https://your-api-domain.com/api
 ```
 
-## استفاده
+## Contributing
 
-1. **چت‌بات**: روی دکمه چت کلیک کنید و شروع به گفت‌وگو کنید
-2. **حالت دیباگ**: برای مشاهده جزئیات فنی، دکمه تنظیمات را فعال کنید
-3. **مدیریت FAQ**: از `/admin/faqs` برای مدیریت سؤالات استفاده کنید
-4. **مشاهده لاگ‌ها**: از `/admin/logs` برای بررسی عملکرد سیستم استفاده کنید
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## ویژگی‌های فنی
+## License
 
-- **تشخیص نیت**: طبقه‌بندی خودکار با 7 دسته مختلف
-- **جستجوی معنایی**: استفاده از FAISS برای یافتن بهترین پاسخ‌ها
-- **کیفیت‌سنجی**: بررسی کیفیت پاسخ‌ها و استفاده از پاسخ پیش‌فرض در صورت نیاز
-- **لاگ‌گیری کامل**: ثبت تمام جزئیات گفت‌وگو و عملکرد سیستم
-- **رابط کاربری RTL**: طراحی مخصوص زبان فارسی
+This project is licensed under the MIT License.
 
-## توسعه
+## Support
 
-برای توسعه بیشتر:
+For support and questions:
+- Create an issue on GitHub
+- Contact: support@zimer.com
 
-1. **افزودن دسته‌بندی جدید**: در `services/intent.py` برچسب جدید اضافه کنید
-2. **تغییر مدل**: در `core/config.py` مدل مورد نظر را تنظیم کنید
-3. **افزودن فیلتر**: در `routers/logs.py` فیلتر جدید اضافه کنید
-4. **تغییر UI**: در `frontend/components/` کامپوننت‌ها را ویرایش کنید
+## Changelog
 
-## مجوز
-
-این پروژه تحت مجوز MIT منتشر شده است.
+### v1.0.0
+- Initial release
+- Persian chatbot with FAQ management
+- Semantic search capabilities
+- Comprehensive logging system
+- Docker support
+- Admin panel

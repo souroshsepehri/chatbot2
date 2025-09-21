@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     vectorstore_path: str = "./vectorstore"
     
     class Config:
-        env_file = ".env"
+        # env_file = ".env"  # Temporarily disabled due to encoding issues
         case_sensitive = False
 
 
